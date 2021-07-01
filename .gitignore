@@ -3,3 +3,6 @@
 /.idea/
 /.env
 /app/models/cache.txt
+/__pycache__/
+/.vscode/
+/app/models/cache.json
