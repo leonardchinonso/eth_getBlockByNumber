@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5902ab9-15c2-4ad8-be83-468b22555503" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="e5902ab9-15c2-4ad8-be83-468b22555503" name="Default Changelist" comment="First commit to initiate git" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +15,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JupyterTrust" id="57e04252-513d-4bd1-981b-175dead86576" />
@@ -91,12 +94,24 @@
       <option name="presentableId" value="Default" />
       <updated>1625131047808</updated>
       <workItem from="1625131048897" duration="17000" />
-      <workItem from="1625131199462" duration="1336000" />
+      <workItem from="1625131199462" duration="1683000" />
     </task>
+    <task id="LOCAL-00001" summary="First commit to initiate git">
+      <created>1625132662869</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1625132662869</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit to initiate git" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit to initiate git" />
   </component>
   <component name="WindowStateProjectService">
     <state width="2517" height="413" key="GridCell.Tab.0.bottom" timestamp="1625131616722">
@@ -115,6 +130,10 @@
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state width="2517" height="413" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.2560.1440@1920.0.2560.1440" timestamp="1625131616722" />
+    <state x="2792" y="453" key="Vcs.Push.Dialog.v2" timestamp="1625132886994">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2792" y="453" key="Vcs.Push.Dialog.v2/0.0.1920.1080/1920.0.2560.1440@1920.0.2560.1440" timestamp="1625132886994" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/eth_getBlockByNumber$server.coverage" NAME="server Coverage Results" MODIFIED="1625131613084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
