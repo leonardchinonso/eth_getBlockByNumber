@@ -224,7 +224,6 @@ def get_block_by_number(block_number):
 
 
 def get_block(block_param):
-    print(len(get_cache()))
     if block_param == "latest":
         return get_block_from_cloud_flare("latest")
 
