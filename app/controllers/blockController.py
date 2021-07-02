@@ -1,6 +1,5 @@
 import json
 import os
-import copy
 import requests
 from app import app
 from app.services.errorService import ErrorHandler
@@ -69,26 +68,17 @@ def get_tail_from_cache():
 def get_block_by_number_from_cache(block_number):
     cache = get_cache()
 
-    for number, block in cache.items():
-        if str(block_number) == number:
-            return block
+    if block_number in cache:
+        return cache[block_number]
 
     return None
 
 
-def update_block_in_cache(block_number, block_to_update):
-    cache = get_cache()
-
-    cache[block_number] = block_to_update
-
-    write_to_cache(cache)
-
-
-def get_block_by_number_from_cloud_flare(block_number):
+def get_block_from_cloud_flare(param):
     body = {
         "jsonrpc": "2.0",
         "method": "eth_getBlockByNumber",
-        "params": [block_number, True],
+        "params": [param, True],
         "id": 1
     }
 
@@ -105,26 +95,8 @@ def get_block_by_number_from_cloud_flare(block_number):
     return data["result"]
 
 
-def delete_prev_twenty(input_block_number, cache):
-    cacheClone = copy.deepcopy(cache)
-
-    input_number = UtilService.convert_hex_to_int(input_block_number)
-
-    for number, block in cacheClone.items():
-        number_to_check = UtilService.convert_hex_to_int(number)
-
-        diff = input_number - number_to_check
-
-        if 0 <= diff <= 20:
-            cloned_block = cache[block["number"]]
-            remove_block_from_cache(cloned_block, cache, False)
-
-    return cache
-
-
-def remove_block_from_cache(block_to_remove, cache=None, write_to_cache_file=False):
-    if cache is None:
-        cache = get_cache()
+def remove_block_from_cache(block_to_remove):
+    cache = get_cache()
     
     prev_block, next_block = None, None
 
@@ -157,15 +129,38 @@ def remove_block_from_cache(block_to_remove, cache=None, write_to_cache_file=Fal
 
     del cache[block_to_remove["number"]]
 
-    if write_to_cache_file:
-        write_to_cache(cache)
+    write_to_cache(cache)
+
+
+def remove_tail_from_cache(cache):
+    tail, prev_block = None, None
+
+    for number, block in cache.items():
+        if block["position"] == "tail":
+            tail = block
+
+            if "prev_number" in tail:
+                prev_block = cache[tail["prev_number"]]
+
+            break
+
+    del cache[tail["number"]]
+
+    if prev_block is not None:
+        prev_block["position"] = "tail"
+        del prev_block["next_number"]
 
 
 def add_to_head_of_cache(new_block):
     cache = get_cache()
 
-    if len(cache) != 0:
-        cache = delete_prev_twenty(new_block["number"], cache,)
+    latest_block = get_block("latest")
+
+    latest_block_number_decimal = UtilService.convert_hex_to_int(latest_block["number"])
+    new_block_number_decimal = UtilService.convert_hex_to_int(new_block["number"])
+
+    if latest_block_number_decimal - new_block_number_decimal <= 20:
+        return
 
     if len(cache) == 0:
         new_block["position"] = "head"
@@ -177,22 +172,7 @@ def add_to_head_of_cache(new_block):
         return
     
     if len(cache) == CAPACITY:
-        tail, prev_block = None, None
-
-        for number, block in cache.items():
-            if block["position"] == "tail":
-                tail = block
-
-                if "prev_number" in tail:
-                    prev_block = cache[tail["prev_number"]]
-
-                break
-
-        del cache[tail["number"]]
-        
-        if prev_block is not None:
-            prev_block["position"] = "tail"
-            del prev_block["next_number"]
+        remove_tail_from_cache(cache)
 
     head = None
 
@@ -221,7 +201,7 @@ def get_block_by_number(block_number):
     block = get_block_by_number_from_cache(block_number)
 
     if block is None:
-        block = get_block_by_number_from_cloud_flare(block_number)
+        block = get_block_from_cloud_flare(block_number)
 
         if block is None:
             return None
@@ -244,16 +224,13 @@ def get_block_by_number(block_number):
 
 
 def get_block(block_param):
+    print(len(get_cache()))
     if block_param == "latest":
-        block = get_head_from_cache()
+        return get_block_from_cloud_flare("latest")
 
-        if block is None:
-            raise ErrorHandler("No blocks have been cached yet!", status_code=404)
+    block = get_block_by_number(block_param)
 
-    else:
-        block = get_block_by_number(block_param)
-
-        if block is None:
-            raise ErrorHandler("Block not found!", status_code=404)
+    if block is None:
+        raise ErrorHandler("Block not found!", status_code=404)
 
     return block
