@@ -2,7 +2,6 @@ import os
 import requests
 from app import app
 from app.services.errorService import ErrorHandler
-from app.services import utilService as UtilService
 from app.services import cacheService as CacheService
 from app.services import blockService as BlockService
 
