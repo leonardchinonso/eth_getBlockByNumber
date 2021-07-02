@@ -1,20 +1,21 @@
 from app.services.errorService import ErrorHandler
 from app.controllers import blockController as BlockController
+from app.services import utilService as UtilService
 
 
 def get_transaction_by_index(block, index):
-    index = int(index)
-    if "transactions" in block and index >= len(block["transactions"]):
+    decimal_equivalent = UtilService.convert_hex_to_int(index)
+    if "transactions" in block and decimal_equivalent >= len(block["transactions"]):
         new_block = BlockController.get_block_by_number_from_cloud_flare(block["number"])
 
-        if "transactions" in new_block and index >= len(new_block["transactions"]):
+        if "transactions" in new_block and decimal_equivalent >= len(new_block["transactions"]):
             raise ErrorHandler("Transaction index out of range!", status_code=400)
 
         BlockController.update_block_in_cache(block["number"], new_block)
 
-        return new_block["transactions"][index]
+        return new_block["transactions"][decimal_equivalent]
 
-    return block["transactions"][index]
+    return block["transactions"][decimal_equivalent]
 
 
 def get_transaction_by_hash_value(block, hash_value):
@@ -35,7 +36,7 @@ def get_transaction_by_hash_value(block, hash_value):
 def get_transaction(block_param, txs_param):
     block = BlockController.get_block(block_param)
 
-    if txs_param.isdigit():
-        return get_transaction_by_index(block, txs_param)
+    if UtilService.is_hash(txs_param):
+        return get_transaction_by_hash_value(block, txs_param)
 
-    return get_transaction_by_hash_value(block, txs_param)
+    return get_transaction_by_index(block, txs_param)

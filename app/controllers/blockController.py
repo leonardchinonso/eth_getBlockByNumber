@@ -4,6 +4,7 @@ import copy
 import requests
 from app import app
 from app.services.errorService import ErrorHandler
+from app.services import utilService as UtilService
 
 
 app.config["CLOUDFLARE_URL"] = os.getenv("CLOUDFLARE_URL")
@@ -20,15 +21,6 @@ if CAPACITY <= 1:
 if not os.path.exists(path):
     with open(path, "w"):
         pass
-
-
-def format_block_number(block_number):
-    last_two = block_number[len(block_number) - 2:]
-
-    if last_two[0] == "x":
-        last_two = "0" + last_two[1]
-
-    return int(last_two)
 
 
 def get_cache():
@@ -116,10 +108,10 @@ def get_block_by_number_from_cloud_flare(block_number):
 def delete_prev_twenty(input_block_number, cache):
     cacheClone = copy.deepcopy(cache)
 
-    input_number = format_block_number(input_block_number)
+    input_number = UtilService.convert_hex_to_int(input_block_number)
 
     for number, block in cacheClone.items():
-        number_to_check = format_block_number(number)
+        number_to_check = UtilService.convert_hex_to_int(number)
 
         diff = input_number - number_to_check
 
