@@ -6,12 +6,10 @@ from app.services import cacheService as CacheService
 from app.services import blockService as BlockService
 
 
-app.config["CLOUDFLARE_URL"] = os.getenv("CLOUDFLARE_URL")
+CLOUDFLARE_URL = os.getenv("CLOUDFLARE_URL")
 
 
-def get_block_by_number_from_cache(block_number):
-    cache = CacheService.get_cache()
-
+def get_block_by_number_from_cache(block_number, cache):
     if block_number in cache:
         return cache[block_number]
 
@@ -26,13 +24,13 @@ def get_block_from_cloud_flare(param):
         "id": 1
     }
 
-    res = requests.post(app.config["CLOUDFLARE_URL"], json=body)
+    res = requests.post(CLOUDFLARE_URL, json=body)
 
     data = res.json()
 
     if "error" in data:
         if data["error"]["code"] == -32602:
-            raise ErrorHandler("invalid argument 0: hex string \"0x\"", status_code=400)
+            raise ErrorHandler("Invalid argument 0: hex string \"0x\"", status_code=400)
 
         return None
 
@@ -40,7 +38,9 @@ def get_block_from_cloud_flare(param):
 
 
 def get_block_by_number(block_number):
-    block = get_block_by_number_from_cache(block_number)
+    cache = CacheService.get_cache()
+
+    block = get_block_by_number_from_cache(block_number, cache)
 
     if block is None:
         try:
@@ -52,13 +52,13 @@ def get_block_by_number(block_number):
             return None
 
     else:
-        CacheService.remove_block_from_cache(block)
+        CacheService.remove_block_from_cache(block, cache)
 
         block = BlockService.reset_block(block)
 
     latest_block = get_block("latest")
 
-    CacheService.add_to_head_of_cache(block, latest_block)
+    CacheService.add_to_head_of_cache(block, latest_block, cache)
 
     return block
 
@@ -69,7 +69,9 @@ def get_block(block_param):
             block = get_block_from_cloud_flare("latest")
         except Exception as e:
             raise ErrorHandler(e)
-        return block
+
+        if block is None:
+            raise ErrorHandler("Block not found!", status_code=404)
 
     block = get_block_by_number(block_param)
 

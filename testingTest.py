@@ -1,6 +1,13 @@
+import os
+import sys
+print("os path", os.path.dirname(__file__))
+
+topdir = os.path.join(os.path.dirname("C:\\Users\\USER\\Projects\\Personal\\eth_getBlockByNumber\\testingTest.py"), "..")
+sys.path.append(topdir)
+print("sys path", sys.path)
+
 from app import app
 import unittest
-
 
 class TestTest(unittest.TestCase):
 
