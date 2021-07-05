@@ -45,9 +45,9 @@ class TestGetBlockFromCloudFlare(unittest.TestCase):
         with self.assertRaises(ErrorHandler) as ContextManager:
             BlockController.get_block_from_cloud_flare("0xc123g")
 
-            exception = ContextManager.exception
-            self.assertEqual(exception.status_code, 400)
-            self.assertEqual(exception.message, "Invalid argument 0: hex string \"0x\"")
+        exception = ContextManager.exception
+        self.assertEqual(exception.status_code, 400)
+        self.assertEqual(exception.message, "Invalid argument 0: hex string \"0x\"")
 
     def test_get_block_from_cloud_flare_returns_none(self):
         self.assertIsNone(BlockController.get_block_from_cloud_flare("0xc123412341234"))

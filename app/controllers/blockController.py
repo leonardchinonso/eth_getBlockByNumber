@@ -42,8 +42,8 @@ def get_block_by_number(block_number):
     if block is None:
         try:
             block = get_block_from_cloud_flare(block_number)
-        except Exception as e:
-            raise ErrorHandler(e)
+        except Exception:
+            raise ErrorHandler("Cannot get block, please check your connection...")
 
         if block is None:
             return None
@@ -63,8 +63,8 @@ def get_block(block_param):
     if block_param == "latest":
         try:
             block = get_block_from_cloud_flare("latest")
-        except Exception as e:
-            raise ErrorHandler(e)
+        except Exception:
+            raise ErrorHandler("Cannot get latest block, please check your connection...")
 
         if block is None:
             raise ErrorHandler("Block not found!", status_code=404)

@@ -6,7 +6,7 @@ from app.services import utilService as UtilService
 def get_transaction_by_index(data, index):
     decimal_equivalent = UtilService.convert_hex_to_int(index)
 
-    if "transactions" in data and decimal_equivalent >= len(data["transactions"]):
+    if decimal_equivalent >= len(data["transactions"]):
         raise ErrorHandler("Transaction index out of range!", status_code=400)
 
     return data["transactions"][decimal_equivalent]

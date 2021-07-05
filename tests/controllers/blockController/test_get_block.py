@@ -21,9 +21,9 @@ class TestGetBlock(unittest.TestCase):
         with self.assertRaises(ErrorHandler) as ContextManager:
             BlockController.get_block("0x123412341234")
 
-            exception = ContextManager.exception
-            self.assertEqual(exception.status_code, 404)
-            self.assertEqual(exception.message, "Block not found!")
+        exception = ContextManager.exception
+        self.assertEqual(exception.status_code, 404)
+        self.assertEqual(exception.message, "Block not found!")
 
 
 if __name__ == '__main__':
