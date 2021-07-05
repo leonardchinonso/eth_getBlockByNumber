@@ -39,7 +39,6 @@ class TestRemoveTail(unittest.TestCase):
             self.cache.remove_tail()
 
         exception = ContextManager.exception
-        print(exception)
         self.assertEqual(exception.status_code, 400)
         self.assertEqual(exception.message, "You cannot remove a tail from cache with size equal to or less than 1!")
 
