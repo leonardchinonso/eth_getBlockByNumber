@@ -13,7 +13,6 @@ class TestIsWithinLatestBlock(unittest.TestCase):
 
     def setUp(self) -> None:
         self.block_number = "0x1"  # 1
-
         self.latest_block_number = "0x16"  # 22
 
     def test_is_within_latest_block_returns_false(self):
