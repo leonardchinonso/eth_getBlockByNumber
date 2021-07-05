@@ -2,6 +2,10 @@ import os
 from app.services import utilService as UtilService
 from app.models.cache import Cache
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 CAPACITY = int(os.getenv("CAPACITY"))
 
 cache = Cache(CAPACITY)

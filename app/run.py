@@ -1,4 +1,14 @@
+import os
+import sys
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, request, jsonify, make_response
+app = Flask(__name__)
+
+sys.path.append(os.getenv("BASE_PATH"))
+
 from app import app
 from app.services import cacheService as CacheService
 from app.controllers import blockController as BlockController
@@ -24,3 +34,7 @@ def get_transaction(block_param, txs_param):
     transaction = TransactionController.get_transaction(block_param, txs_param)
 
     return make_response(jsonify({"status_code": 200, "data": transaction}))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
