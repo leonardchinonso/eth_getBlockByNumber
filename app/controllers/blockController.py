@@ -1,19 +1,11 @@
 import os
 import requests
-from app import app
+from app.models.block import Block
 from app.services.errorService import ErrorHandler
 from app.services import cacheService as CacheService
-from app.services import blockService as BlockService
 
 
 CLOUDFLARE_URL = os.getenv("CLOUDFLARE_URL")
-
-
-def get_block_by_number_from_cache(block_number, cache):
-    if block_number in cache:
-        return cache[block_number]
-
-    return None
 
 
 def get_block_from_cloud_flare(param):
@@ -34,13 +26,18 @@ def get_block_from_cloud_flare(param):
 
         return None
 
-    return data["result"]
+    result = data["result"]
+
+    if result is None:
+        return None
+
+    return Block(result["number"], result)
 
 
 def get_block_by_number(block_number):
     cache = CacheService.get_cache()
 
-    block = get_block_by_number_from_cache(block_number, cache)
+    block = cache.get_block_by_number(block_number)
 
     if block is None:
         try:
@@ -52,13 +49,12 @@ def get_block_by_number(block_number):
             return None
 
     else:
-        CacheService.remove_block_from_cache(block, cache)
-
-        block = BlockService.reset_block(block)
+        cache.remove_block(block)
 
     latest_block = get_block("latest")
 
-    CacheService.add_to_head_of_cache(block, latest_block, cache)
+    if not CacheService.is_within_latest_block(block.number, latest_block.number):
+        cache.add_to_head(block)
 
     return block
 
@@ -73,7 +69,8 @@ def get_block(block_param):
         if block is None:
             raise ErrorHandler("Block not found!", status_code=404)
 
-    block = get_block_by_number(block_param)
+    else:
+        block = get_block_by_number(block_param)
 
     if block is None:
         raise ErrorHandler("Block not found!", status_code=404)

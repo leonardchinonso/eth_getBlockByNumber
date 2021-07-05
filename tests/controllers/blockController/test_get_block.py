@@ -15,7 +15,7 @@ class TestGetBlock(unittest.TestCase):
     def test_get_latest_block_returns_valid_block(self):
         data = BlockController.get_block("latest")
         self.assertIsNotNone(data)
-        self.assertIsNotNone(data["number"])
+        self.assertIsNotNone(data.number)
 
     def test_get_block_by_number_raises_exception(self):
         with self.assertRaises(ErrorHandler) as ContextManager:

@@ -17,7 +17,7 @@ class TestGetBlockByNumber(unittest.TestCase):
     def test_get_block_by_number_returns_valid_block(self):
         data = BlockController.get_block_by_number("0x1234")
         self.assertIsNotNone(data)
-        self.assertEqual("0x1234", data["number"])
+        self.assertEqual("0x1234", data.number)
 
 
 if __name__ == '__main__':

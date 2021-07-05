@@ -3,17 +3,17 @@ from app.controllers import blockController as BlockController
 from app.services import utilService as UtilService
 
 
-def get_transaction_by_index(block, index):
+def get_transaction_by_index(data, index):
     decimal_equivalent = UtilService.convert_hex_to_int(index)
 
-    if "transactions" in block and decimal_equivalent >= len(block["transactions"]):
+    if "transactions" in data and decimal_equivalent >= len(data["transactions"]):
         raise ErrorHandler("Transaction index out of range!", status_code=400)
 
-    return block["transactions"][decimal_equivalent]
+    return data["transactions"][decimal_equivalent]
 
 
-def get_transaction_by_hash_value(block, hash_value):
-    for transaction in block["transactions"]:
+def get_transaction_by_hash_value(data, hash_value):
+    for transaction in data["transactions"]:
         if transaction["hash"] == hash_value:
             return transaction
 
@@ -24,6 +24,6 @@ def get_transaction(block_param, txs_param):
     block = BlockController.get_block(block_param)
 
     if UtilService.is_hash(txs_param):
-        return get_transaction_by_hash_value(block, txs_param)
+        return get_transaction_by_hash_value(block.data, txs_param)
 
-    return get_transaction_by_index(block, txs_param)
+    return get_transaction_by_index(block.data, txs_param)

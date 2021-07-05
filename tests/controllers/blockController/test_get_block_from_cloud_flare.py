@@ -36,9 +36,10 @@ class TestGetBlockFromCloudFlare(unittest.TestCase):
             "id": 1
         })
 
-        data = response.json()
+        response = response.json()
+        block = BlockController.get_block_from_cloud_flare("0xc1234")
 
-        self.assertEqual(BlockController.get_block_from_cloud_flare("0xc1234"), data["result"])
+        self.assertEqual(response["result"], block.data)
 
     def test_get_block_from_cloud_flare_with_invalid_hex_number(self):
         with self.assertRaises(ErrorHandler) as ContextManager:
