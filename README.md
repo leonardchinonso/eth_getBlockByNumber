@@ -41,7 +41,7 @@ To keep the process running, use:
 ```bash
 docker run -d -p 5000:5000 eth_get_block_by_number
 ```
-The two ports specify the HOST and CONTAINER ports respectively. To run on a different port on your machine, change the
+The two numbers specify the HOST and CONTAINER ports respectively. To run on a different port on your machine, change the
 first port to your port number, i.e.
 ```bash
 docker run -d -p PORT_NUMBER:5000 eth_get_block_by_number
