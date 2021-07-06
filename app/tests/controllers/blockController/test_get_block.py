@@ -4,7 +4,8 @@ import unittest
 from dotenv import load_dotenv
 
 load_dotenv()
-sys.path.append(os.getenv("BASE_PATH"))
+
+sys.path.insert(0, os.getenv("BASE_PATH"))
 
 from app.services.errorService import ErrorHandler
 from app.controllers import blockController as BlockController

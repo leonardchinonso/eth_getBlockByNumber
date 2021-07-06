@@ -4,7 +4,7 @@ import unittest
 from dotenv import load_dotenv
 
 load_dotenv()
-sys.path.append(os.getenv("BASE_PATH"))
+sys.path.insert(0, os.getenv("BASE_PATH"))
 
 from app.models.block import Block
 
@@ -12,7 +12,7 @@ from app.models.block import Block
 class TestBlockInitialization(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.prev_block = Block("0x1234", {
+        self.prev_block = Block("0x1233", {
             "number": "0x1233"
         })
         self.block = Block("0x1234", {

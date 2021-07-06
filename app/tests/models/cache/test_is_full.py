@@ -4,7 +4,7 @@ import unittest
 from dotenv import load_dotenv
 
 load_dotenv()
-sys.path.append(os.getenv("BASE_PATH"))
+sys.path.insert(0, os.getenv("BASE_PATH"))
 
 from app.models.cache import Cache
 
