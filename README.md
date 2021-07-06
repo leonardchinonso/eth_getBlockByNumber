@@ -15,6 +15,8 @@ There are three ways to install this app for use:
 + Docker pull
 + Local machine
 
+In order to install...
+
 To use any of the Docker enabled methods above, you must have Docker installed.
 
 For Mac users, install with this [link](https://docs.docker.com/docker-for-mac/install/)
