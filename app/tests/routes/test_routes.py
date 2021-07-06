@@ -11,6 +11,11 @@ from app import app
 
 class TestRoutes(unittest.TestCase):
 
+    def test_get_cache(self):
+        tester = app.test_client(self)
+        response = tester.get("/", content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
     def test_get_latest_block_route(self):
         tester = app.test_client(self)
         response = tester.get("/block/latest", content_type="application/json")

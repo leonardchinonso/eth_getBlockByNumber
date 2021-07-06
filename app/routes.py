@@ -6,7 +6,7 @@ from app.controllers import transactionController as TransactionController
 
 
 @app.route("/", methods=["GET"])
-def see_cache():
+def get_cache():
     cache = CacheService.get_cache()
 
     return make_response(jsonify({"status_code": 200, "data": cache.data}))
