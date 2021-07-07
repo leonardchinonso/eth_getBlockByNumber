@@ -1,7 +1,7 @@
 
 # eth_getBlockByNumberWithCache
 
----
+------
 eth_getBlockByNumberWithCache is a caching proxy for CloudFlare's eth_getBlockByNumber method. It makes use of the LRU caching style as its cache
 method. It is built using Python's flask framework and uses REST as its communication method.
 
