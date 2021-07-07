@@ -121,8 +121,9 @@ curl localhost:PORT_NAME
 
 + Using your browser
 
-Navigate to *localhost:PORT_NAME* in your browser
+Navigate to *localhost:PORT_NAME* in your browser.
 
+From here on, you can access the endpoints using the documentation outlined below.
 To clear the cache, simply quit the application with *CTRL+C* and rerun it.
 
 ## Tests
