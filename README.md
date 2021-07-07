@@ -158,5 +158,9 @@ avoid making *assumption-1*.
 2. From *assumption-2* outlined above, we could modify the endpoint to collect a query parameter of say "type", to know if the
 user wants to query the transactions by index or by hash. That way, we eliminate the ambiguity of what is to be called.
 
+## Documentation
+This is the source code documentation for this project: [click here](https://docs.google.com/document/d/1YORAVKpCqMTv5mEMWvDMdoIL4dELx3LA16E4FhUVqz8/edit?usp=sharing)
+
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
