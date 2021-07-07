@@ -1,6 +1,6 @@
 # The following lines execute system commands that run the python files in the tests' directories
-
 import os
+
 
 # Models
 os.system("python app/tests/models/block/test_block_initialisation.py")
