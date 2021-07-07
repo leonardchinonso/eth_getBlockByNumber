@@ -1,5 +1,6 @@
 import os
 import requests
+from typing import Optional
 from app.models.block import Block
 from app.services.errorService import ErrorHandler
 from app.services import cacheService as CacheService
@@ -8,7 +9,7 @@ from app.services import cacheService as CacheService
 CLOUDFLARE_URL = os.getenv("CLOUDFLARE_URL")
 
 
-def get_block_from_cloud_flare(param):
+def get_block_from_cloud_flare(param: str) -> Optional[Block]:
     body = {
         "jsonrpc": "2.0",
         "method": "eth_getBlockByNumber",
@@ -34,7 +35,7 @@ def get_block_from_cloud_flare(param):
     return Block(result["number"], result)
 
 
-def get_block_by_number(block_number):
+def get_block_by_number(block_number: str) -> Optional[Block]:
     cache = CacheService.get_cache()
 
     block = cache.get_block_by_number(block_number)
@@ -59,7 +60,7 @@ def get_block_by_number(block_number):
     return block
 
 
-def get_block(block_param):
+def get_block(block_param: str) -> Optional[Block]:
     if block_param == "latest":
         try:
             block = get_block_from_cloud_flare("latest")

@@ -1,6 +1,9 @@
+from typing import Optional
+
+
 class Block:
 
-    def __init__(self, number, data, prev_block=None, next_block=None):
+    def __init__(self, number: str, data: Optional[dict], prev_block=None, next_block=None):
         self.number = number
         self.data = data
         self.prev_block = prev_block

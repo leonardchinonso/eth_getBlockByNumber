@@ -1,3 +1,5 @@
+# The following lines execute system commands that run the python files in the tests' directories
+
 import os
 
 # Models

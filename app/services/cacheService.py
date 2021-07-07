@@ -11,11 +11,11 @@ CAPACITY = int(os.getenv("CAPACITY"))
 cache = Cache(CAPACITY)
 
 
-def get_cache():
+def get_cache() -> Cache:
     return cache
 
 
-def is_within_latest_block(block_number, latest_block_number):
+def is_within_latest_block(block_number, latest_block_number) -> bool:
     latest_block_number_decimal = UtilService.convert_hex_to_int(latest_block_number)
     new_block_number_decimal = UtilService.convert_hex_to_int(block_number)
 

@@ -6,14 +6,14 @@ from app.controllers import transactionController as TransactionController
 
 
 @app.route("/block/<block_param>", methods=["GET"])
-def get_block(block_param):
+def get_block(block_param: str):
     block = BlockController.get_block(block_param)
 
     return make_response(jsonify({"status_code": 200, "data": block.data}))
 
 
 @app.route("/block/<block_param>/txs/<txs_param>", methods=["GET"])
-def get_transaction(block_param, txs_param):
+def get_transaction(block_param: str, txs_param: str):
     transaction = TransactionController.get_transaction(block_param, txs_param)
 
     return make_response(jsonify({"status_code": 200, "data": transaction}))

@@ -1,7 +1,7 @@
 from app.services.errorService import ErrorHandler
 
 
-def convert_hex_to_int(hex_number):
+def convert_hex_to_int(hex_number: str) -> int:
     try:
         decimal_value = int(hex_number, 16)
     except ValueError:
@@ -10,7 +10,7 @@ def convert_hex_to_int(hex_number):
     return decimal_value
 
 
-def is_hash(string):
+def is_hash(string: str) -> bool:
     if len(string) > 10:
         return True
     return False
